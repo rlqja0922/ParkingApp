@@ -1,4 +1,4 @@
-package com.example.parkinglrapp
+package com.example.parkinglrapp.Data
 
 
 // ParkingData.kt
