@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "866692094244",
+    "project_id": "parkinglr-169f8",
+    "storage_bucket": "parkinglr-169f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866692094244:android:de13fe89e2c3b70955bbb1",
+        "android_client_info": {
+          "package_name": "com.example.parkinglrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866692094244-pq5jn96usdp5oov9tjclnrp0c31120gq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkinglrapp",
+            "certificate_hash": "b65f2d6b306e89bd23574072a2654e05aeb1b70e"
+          }
+        },
+        {
+          "client_id": "866692094244-4iumuutd8pvo6l9n6bg91rm5vg6j871e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAIWRqWFxPKk_ogZF2Fw_FWLuKvnnf3Ms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866692094244-4iumuutd8pvo6l9n6bg91rm5vg6j871e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
