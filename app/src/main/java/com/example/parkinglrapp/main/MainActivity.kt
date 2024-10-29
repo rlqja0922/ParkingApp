@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         // 주차장 데이터 가져오기
-        parkingViewModel.fetchParkingAddData(page = 0, lat = lat, long = long)  // 예시 좌표
+        parkingViewModel.fetchParkingAddData(page = 1, lat = lat, long = long)  // 예시 좌표
     }
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent

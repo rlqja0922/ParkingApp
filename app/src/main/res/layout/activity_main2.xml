@@ -19,13 +19,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </androidx.constraintlayout.widget.Guideline>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/google_login_guide3"
+        app:layout_constraintGuide_percent="0.95"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </androidx.constraintlayout.widget.Guideline>
     <TextView
         android:id="@+id/login_text"
         android:text="@string/google_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/google_login_guide2"
-        app:layout_constraintTop_toTopOf="@+id/google_login_guide1"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/google_login_guide1"></TextView>🖐️
 
     <ImageView
         android:id="@+id/google_login_imageview"
@@ -35,5 +43,25 @@
         app:layout_constraintEnd_toStartOf="@+id/google_login_guide2"
         app:layout_constraintStart_toStartOf="@+id/login_text"
         app:layout_constraintTop_toBottomOf="@+id/login_text"></ImageView>
+    <ImageView
+        android:id="@+id/menu_imageview"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/goole_ico"
+        app:layout_constraintEnd_toStartOf="@+id/google_login_guide2"
+        app:layout_constraintBottom_toBottomOf="@+id/google_login_guide3"></ImageView>
 
+    <TextView
+        android:id="@+id/login_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="안녕하세요!🖐️"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/google_login_guide2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/google_login_guide1"></TextView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_fragment_view"></FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,19 +65,15 @@ dependencies {
 
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
 
-    implementation(name: 'line-sdk-4.0.8', ext: 'aar')
-    implementation 'com.wang.avi:library:2.1.3'
-
-    implementation platform('com.google.firebase:firebase-bom:32.2.0')
-    implementation 'com.google.firebase:firebase-auth-ktx' // Firebase 인증 라이브러리
     implementation 'com.google.android.gms:play-services-auth:20.7.0' // Google Sign-In API
 
-    implementation 'com.google.firebase:firebase-crash:16.2.1'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
-//    implementation 'com.google.android.gms:play-services-ads:20.4.0'
-    implementation 'com.google.android.gms:play-services-ads:21.5.0'
-    implementation 'com.google.firebase:firebase-messaging:20.2.3'
-    implementation 'com.google.firebase:firebase-analytics:21.6.1'
+//    implementation 'com.google.android.gms:play-services-ads:21.5.0'
+    implementation platform('com.google.firebase:firebase-bom:32.0.0') // 최신 BOM 버전으로 업데이트
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+//    implementation 'com.google.firebase:firebase-crashlytics-ktx' // Crashlytics 사용
+    implementation 'com.google.firebase:firebase-auth-ktx' // Firebase 인증 라이브러리
 
 
     //RxJava
@@ -91,8 +87,8 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$room_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$room_version"
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.28' // 최신 버전으로 업데이트
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.core:core-ktx:1.7.0'

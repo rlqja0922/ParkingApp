@@ -102,20 +102,6 @@ class GpsInfo(private val mContext: Context) :
             return loc
         }
 
-    fun getLongitude(): Double {
-        if (loc != null) {
-            longitude = loc!!.longitude
-        }
-        return longitude
-    }
-
-    fun getLatitude(): Double {
-        if (loc != null) {
-            latitude = loc!!.latitude
-        }
-        return latitude
-    }
-
     val isGpsEnabled: Boolean
         get() {
             locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
