@@ -1,8 +1,29 @@
 <resources>
-    <string name="app_name">ParkingLRAPP</string>
+    <string name="app_name">ParkingLR</string>
     <string name="google_text">구글로 로그인하기</string>
     <string name="default_web_client_id">866692094244-pq5jn96usdp5oov9tjclnrp0c31120gq.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_text">내 손안에 주차 매니저</string>
+    <string name="main_text2">ParkingLR</string>
+    <string name="main_text3">내 주변 주차장</string>
+    <string name="search">Search</string>
+    <string name="search2">제공기관 기준으로 검색</string>
+    <string name="search_list">검색 기록</string>
+    <string name="search_list_title">Search History</string>
+    <string name="delete">데이터 삭제</string>
+    <string name="data_null">데이터가 없습니다.</string>
+    <string name="data_guest">게스트 계정의 경우 \n검색 기록이 저장되지 않습니다.</string>
+    <string name="search_results">Search Results</string>
+    <string name="institution">관리 기관</string>
+    <string name="institution_hint">주차장 관리기관명</string>
+    <string name="parking_data">주차장 상세정보</string>
+    <string name="map_title">Map</string>
+    <string name="account">Account</string>
+    <string name="profile">Profile</string>
+    <string name="profile_text1">안녕하세요! 🖐️</string>
+    <string name="profile_text2">님</string>
+    <string name="profile_text3">자주가는 지역</string>
+    <string name="logout">로그아웃</string>
 
 </resources>
