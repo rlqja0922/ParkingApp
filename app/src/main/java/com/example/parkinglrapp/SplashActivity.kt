@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
     private val REQUEST_CODE_PERMISSIONS = 1000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_splash)
 
     }
 

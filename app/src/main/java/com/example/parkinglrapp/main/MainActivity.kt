@@ -12,7 +12,7 @@ import com.example.parkinglrapp.RetrofitCall
 import com.example.parkinglrapp.utills.GpsInfo
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.example.parkinglrapp.databinding.ActivityMain2Binding
+import com.example.parkinglrapp.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -27,18 +27,14 @@ class MainActivity : AppCompatActivity() {
     var long : Long? = null
     lateinit var context : Context
     private val parkingViewModel: RetrofitCall by viewModels()
-    lateinit var binding: ActivityMain2Binding
+    lateinit var binding: ActivityMainBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
     private val RC_SIGN_IN = 9001 // Firebase 인증에 사용할 코드
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMain2Binding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.googleLoginImageview.setOnClickListener {
-
-            signIn()
-        }
         context = this
         gps = GpsInfo(this)
         if (gps.checkGPS){
