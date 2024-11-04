@@ -5,6 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter
+import com.example.parkinglrapp.List.placeholder.PlaceholderContent
 import com.example.parkinglrapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,6 +26,7 @@ class MainFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var columnCount = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +41,19 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+
+        val view = inflater.inflate(R.layout.fragment_main, container, false)
+        if (view is RecyclerView) {
+            with(view) {
+                layoutManager = when {
+                    columnCount <= 1 -> LinearLayoutManager(context)
+                    else -> GridLayoutManager(context, columnCount)
+                }
+                adapter = MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
+            }
+        }
+
+        return view
     }
 
     companion object {

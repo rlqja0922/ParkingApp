@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="264dp"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/park_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="안양시청 주차장"
+        android:textSize="18dp"
+        android:textColor="@color/blue1"
+        android:textStyle="bold"
+        android:textAppearance="?attr/textAppearanceListItem" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <ImageView
+            android:scaleType="centerInside"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/pin_alt"></ImageView>
+        <TextView
+            android:id="@+id/park_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="4dp"
+            android:text="안양시 만안구 만안로 111"
+            android:textAppearance="?attr/textAppearanceListItem" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="3dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="12dp"
+                android:background="@color/blue_back"
+                android:textColor="@color/white"
+                android:text=" 정보1 "></TextView>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/park_detail"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:text="@string/parking_data">
+        </TextView>
+    </LinearLayout>
+</LinearLayout>
