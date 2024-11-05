@@ -5,7 +5,8 @@
     <color name="blue1">#2A51DB</color>
     <color name="blue_back">#1389F4</color>
     <color name="back">#E5F3FB</color>
-    <color name="gray">#D1D3D4</color>
+    <color name="gray">#6C6C6C</color>
+    <color name="gray_back">#E6ECF1</color>
     <color name="black_back">#273B4A</color>
     <color name="brown_back">#A15305</color>
 </resources>

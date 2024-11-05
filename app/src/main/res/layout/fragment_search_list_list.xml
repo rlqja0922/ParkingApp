@@ -10,4 +10,5 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".List.SearchListFragment"
-    tools:listitem="@layout/fragment_search_list" />
+    tools:listitem="@layout/fragment_search_list" >
+</androidx.recyclerview.widget.RecyclerView>
