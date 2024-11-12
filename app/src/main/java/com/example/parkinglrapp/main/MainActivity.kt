@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.example.parkinglrapp.R
 import com.example.parkinglrapp.RetrofitApi
@@ -12,7 +13,13 @@ import com.example.parkinglrapp.RetrofitCall
 import com.example.parkinglrapp.utills.GpsInfo
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
+import com.example.parkinglrapp.Account.AccountFragment
+import com.example.parkinglrapp.Account.MypageFragment
+import com.example.parkinglrapp.Map.MapFragment
+import com.example.parkinglrapp.Search.SearchFragment
 import com.example.parkinglrapp.databinding.ActivityMainBinding
+import com.example.parkinglrapp.utills.SharedStore
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -41,8 +48,106 @@ class MainActivity : AppCompatActivity() {
             lat = gps.latitude.toLong()
             long = gps.longitude.toLong()
         }
+        showFragment()
         googleLogin()
+        binding.menuCard.setOnClickListener {
+            if (binding.menuCardView.visibility == View.VISIBLE){
+                binding.menuCardView.visibility = View.GONE
+            }else{
+                binding.menuCardView.visibility = View.VISIBLE
+            }
+        }
+        binding.menuLayout1.menuSearch.setOnClickListener {
+            if (SharedStore().getSharePrefrerenceBooleanData(context,SharedStore().LOGINYN)){
+                binding.menuCard.visibility=View.GONE
+                binding.menuCardView.visibility=View.GONE
+                val fragment = SearchFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_view, fragment) // FrameLayout의 ID와 Fragment를 연결
+                    .addToBackStack(null) // 뒤로 가기 스택에 추가
+                    .commit()
+            }else{
+                signIn()
+            }
+        }
+        binding.menuLayout1.menuMap.setOnClickListener {
+            if (SharedStore().getSharePrefrerenceBooleanData(context,SharedStore().LOGINYN)){
+                binding.menuCard.visibility=View.GONE
+                binding.menuCardView.visibility=View.GONE
+                val fragment = MapFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_view, fragment) // FrameLayout의 ID와 Fragment를 연결
+                    .addToBackStack(null) // 뒤로 가기 스택에 추가
+                    .commit()
+            }else{
+                signIn()
+            }
+        }
 
+        binding.menuLayout1.menuAccount.setOnClickListener {
+            if (SharedStore().getSharePrefrerenceBooleanData(context,SharedStore().LOGINYN)){
+                binding.menuCard.visibility=View.GONE
+                binding.menuCardView.visibility=View.GONE
+                val fragment = MypageFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_view, fragment) // FrameLayout의 ID와 Fragment를 연결
+                    .addToBackStack(null) // 뒤로 가기 스택에 추가
+                    .commit()
+            }else{
+                signIn()
+            }
+        }
+        supportFragmentManager.addOnBackStackChangedListener {
+            // 최상단 Fragment 클래스 확인
+            val topFragmentClass = getTopFragmentClass()
+            topFragmentClass?.let {
+                if (it.simpleName=="MainFragment"){
+                    binding.titleView.root.visibility=View.GONE
+                    binding.menuCard.visibility=View.VISIBLE
+                    binding.menuCardView.visibility=View.GONE
+
+                }else if (it.simpleName=="SearchFragment"){
+                    binding.titleView.root.visibility=View.VISIBLE
+                    binding.titleView.defTitle.visibility = View.VISIBLE
+                    binding.titleView.backTitle.visibility = View.GONE
+                    binding.titleView.defTitleText.text=getString(R.string.search)
+                    binding.titleView.defTitleIv.setImageDrawable(getDrawable(R.drawable.search_alt))
+                    binding.menuCard.visibility=View.GONE
+                    binding.menuCardView.visibility=View.GONE
+
+                }else if (it.simpleName=="MapFragment"){
+                    binding.titleView.root.visibility=View.VISIBLE
+                    binding.titleView.defTitle.visibility = View.VISIBLE
+                    binding.titleView.backTitle.visibility = View.GONE
+                    binding.titleView.defTitleText.text=getString(R.string.map_title)
+                    binding.titleView.defTitleIv.setImageDrawable(getDrawable(R.drawable.map))
+                    binding.menuCard.visibility=View.GONE
+                    binding.menuCardView.visibility=View.GONE
+
+                }else if (it.simpleName=="MypageFragment"){
+                    binding.titleView.root.visibility=View.VISIBLE
+                    binding.titleView.defTitle.visibility = View.VISIBLE
+                    binding.titleView.backTitle.visibility = View.GONE
+                    binding.titleView.defTitleText.text=getString(R.string.account)
+                    binding.titleView.defTitleIv.setImageDrawable(getDrawable(R.drawable.user_alt_light))
+                    binding.menuCard.visibility=View.GONE
+                    binding.menuCardView.visibility=View.GONE
+
+                }
+            }
+        }
+
+
+    }
+    private fun showFragment() {
+        // Fragment 인스턴스 생성
+        val fragment = MainFragment()
+
+        // FragmentTransaction을 사용해 FrameLayout에 Fragment를 추가
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_view, fragment) // FrameLayout의 ID와 Fragment를 연결
+            .addToBackStack("main") // 뒤로 가기 스택에 추가
+            .commit()
     }
 
     override fun onResume() {
@@ -128,9 +233,31 @@ class MainActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             Toast.makeText(this, "Logged in as: ${user.displayName}", Toast.LENGTH_SHORT).show()
+            SharedStore().putSharePrefrerenceBooleanData(context,SharedStore().LOGINYN,true)
             // UI 업데이트 또는 다른 화면으로 전환
         } else {
             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
+            SharedStore().putSharePrefrerenceBooleanData(context,SharedStore().LOGINYN,false)
+        }
+    }
+    fun getTopFragmentClass(): Class<*>? {
+        // backStackEntryCount가 0보다 크면 백스택에 Fragment가 있음
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            // 최상단 Fragment의 백스택 엔트리
+            val topFragment = supportFragmentManager.fragments.lastOrNull()
+            // 최상단 Fragment가 존재하면 그 클래스 반환
+            return topFragment?.javaClass
+        }
+        return null
+    }
+    override fun onBackPressed() {
+        // 현재 백스택에 쌓인 Fragment 개수를 확인
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            // 백스택에 여러 개의 Fragment가 있다면 popBackStack으로 뒤로 가기
+            supportFragmentManager.popBackStack()
+        } else {
+            // 백스택에 mainFragment 하나만 남은 경우 Activity 종료
+            finish()
         }
     }
 }

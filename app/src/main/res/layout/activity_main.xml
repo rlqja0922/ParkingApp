@@ -14,7 +14,7 @@
     </androidx.constraintlayout.widget.Guideline>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/google_login_guide2"
-        app:layout_constraintGuide_percent="0.9"
+        app:layout_constraintGuide_percent="0.93"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -22,7 +22,7 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/google_login_guide3"
-        app:layout_constraintGuide_percent="0.95"
+        app:layout_constraintGuide_percent="0.97"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -51,12 +51,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardElevation="8dp"
-        app:cardCornerRadius="9dp"
+        app:cardCornerRadius="10dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/menu_card"
         app:layout_constraintEnd_toStartOf="@+id/google_login_guide2">
 
         <include
+            android:id="@+id/menu_layout1"
             layout="@layout/menu_layout"
             android:layout_width="150dp"
             android:layout_height="180dp"></include>

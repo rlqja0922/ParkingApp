@@ -7,6 +7,12 @@ import com.google.gson.Gson
 
 class SharedStore {
 
+    val LOGINYN : String = "login_yn"
+    val NICKNAME : String = "nickname"
+    val PLACE : String = "place"
+    val SPLASHYN : String = "splash_yn"
+    val FIRSTYN : String = "first_yn"
+    val MENUYN : String = "menu_yn"
     /**
      * string 값을 저장한다.
      *
