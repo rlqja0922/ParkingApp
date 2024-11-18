@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.parkinglrapp.Data.ParkingItem
 import com.example.parkinglrapp.R
-import com.example.parkinglrapp.List.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
@@ -39,12 +39,12 @@ class ParkingItemFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
+                adapter = MyItemRecyclerViewAdapter(ArrayList<ParkingItem>())
             }
         }
         return view
     }
-
+    // 데이터를 직접 UI에 반영할 수 있는 메소드
     companion object {
 
         // TODO: Customize parameter argument names

@@ -76,7 +76,7 @@ class SharedStore {
         returnStr = l_pref.getInt(p_keyName, 0)
         return returnStr
     }
-    fun saveEventScanResModel(context: Context, searchData: SearchData?) {
+    fun saveEventSearchResModel(context: Context, searchData: SearchData?) {
         val prefs = context.getSharedPreferences(
             "SEARCHDATA",
             Context.MODE_PRIVATE
@@ -88,7 +88,7 @@ class SharedStore {
         editor.apply()
     }
 
-    fun getEventScanResModel(context: Context): SearchData? {
+    fun getEventSearchResModel(context: Context): SearchData? {
         val prefs = context.getSharedPreferences(
             "SEARCHDATA",
             Context.MODE_PRIVATE

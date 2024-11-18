@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.parkinglrapp.Data.ParkingItem
 import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter
-import com.example.parkinglrapp.List.placeholder.PlaceholderContent
-import com.example.parkinglrapp.R
+import com.example.parkinglrapp.databinding.FragmentMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +27,11 @@ class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var columnCount = 1
+    private lateinit var binding:FragmentMainBinding
+    private lateinit var recyclerView: RecyclerView
 
+    private lateinit var recyclerViewAdapter: MyItemRecyclerViewAdapter
+    private var dataList: MutableList<ParkingItem> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,19 +45,33 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        binding = FragmentMainBinding.inflate(inflater, container,false)
 
-        val view = inflater.inflate(R.layout.fragment_main, container, false)
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
+        dataList = (arguments?.getSerializable("list") as? ArrayList<ParkingItem>)!!
+        val includedView = binding.include  // include 태그의 id
+
+        // 포함된 레이아웃 내 RecyclerView에 접근
+        recyclerView = includedView.list
+
+        // RecyclerView 설정
+        recyclerView.layoutManager = when {
+            columnCount <= 1 -> LinearLayoutManager(context)
+            else -> GridLayoutManager(context, columnCount)
         }
 
-        return view
+        recyclerViewAdapter = MyItemRecyclerViewAdapter(dataList)
+        recyclerView.adapter = recyclerViewAdapter
+
+
+
+        return binding.root  // fragment의 root view를 반환
+
+
+    }
+    fun updateParkingList(newList: List<ParkingItem>) {
+        dataList.clear() // 기존 데이터 삭제
+        dataList.addAll(newList) // 새 데이터 추가
+        recyclerViewAdapter.notifyDataSetChanged()
     }
 
     companion object {
