@@ -13,7 +13,7 @@ interface RetrofitInterface {
         @Query("numOfRows") perPage: Int,           // 한 페이지에 보여줄 데이터 수
         @Query("latitude") latitude: Long?,      //위도
         @Query("longitude") longitude: Long?,     //경도
-        @Query("instt_nm") institutionNm: String?, //관리기관명(ex: 경상남도 창녕군청)
+        @Query("instt_code") instt_code: String?, //제공기관코드(ex: 경상남도 창녕군청)
         @Query("type")type:String = "JSON"
     ): Call<ParkingDataResponse>
 }

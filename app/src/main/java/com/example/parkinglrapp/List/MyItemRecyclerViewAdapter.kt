@@ -38,7 +38,7 @@ class MyItemRecyclerViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ParkingItem) {
             binding.parkName.text = item.prkplceNm
-            binding.parkContent.text = item.rdnmadr
+            binding.parkContent.text = item.rdnmadr ?: item.lnmadr
             binding.parkDetail.text = item.operDay
         }
         override fun toString(): String {

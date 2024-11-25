@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.parkinglrapp.Data.ParkingItem
 import com.example.parkinglrapp.R
 import com.example.parkinglrapp.databinding.FragmentMapBinding
 import com.example.parkinglrapp.main.MainActivity
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 
@@ -33,11 +35,14 @@ class MapFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
      lateinit var binding : FragmentMapBinding
-    private var mMap: GoogleMap? = null
+    private var googleMap: GoogleMap? = null
+    private var data:  List<ParkingItem>? = null // 외부 데이터를 저장
+    private val markers = mutableListOf<Marker>() // 추가된 마커를 관리하기 위한 리스트
 
 
-    private val callback = OnMapReadyCallback { googleMap ->
+    private val callback = OnMapReadyCallback { map ->
 
+        googleMap = map
         val activity = requireActivity() as MainActivity
         val gps = GpsInfo(requireContext())
 
@@ -53,11 +58,11 @@ class MapFragment : Fragment() {
             .title("현재 위치")
             .snippet("현재 위치") // 마커 정보 창에 표시할 내용
         // 카메라 이동 (줌 레벨 15)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+        googleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
 
-        val marker = googleMap.addMarker(markerOptions)
+        val marker = googleMap!!.addMarker(markerOptions)
         // 마커 클릭 리스너 설정
-        googleMap.setOnMarkerClickListener { clickedMarker ->
+        googleMap!!.setOnMarkerClickListener { clickedMarker ->
             if (clickedMarker == marker) {
                 // 마커 클릭 시 처리
                 binding.materialCardView.visibility = View.VISIBLE
@@ -66,9 +71,62 @@ class MapFragment : Fragment() {
         }
 
         // InfoWindow 클릭 리스너 설정 (선택 사항)
-        googleMap.setOnInfoWindowClickListener { clickedMarker ->
+        googleMap!!.setOnInfoWindowClickListener { clickedMarker ->
             if (clickedMarker == marker) {
                 // InfoWindow 클릭 시 처리
+                Toast.makeText(context, "InfoWindow 클릭됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        data?.let { updateMapWithLocation(it) } // 데이터가 있으면 바로 지도 업데이트
+    }
+    // 외부 데이터를 설정하고 지도 업데이트
+    fun updateData(newList: List<ParkingItem>) {
+        data = newList
+        googleMap?.let { updateMapWithLocation(newList) }
+    }
+    private fun updateMapWithLocation(locationList: List<ParkingItem>) {
+        // 마커 추가
+
+        googleMap?.apply {
+            for (item in locationList) {
+                if (item.latitude.isEmpty()) {
+                    continue
+                }
+
+                val location = LatLng(item.latitude.toDouble(), item.longitude.toDouble())
+                val markerOptions = MarkerOptions()
+                    .position(location)
+                    .title(item.prkplceNm)
+                    .snippet(item.prkplceSe)
+
+                val marker = addMarker(markerOptions)
+
+                // 마커에 item 정보를 tag로 저장
+                marker?.tag = item
+
+                marker?.let { markers.add(it) } // 추가된 마커를 리스트에 저장
+            }
+
+            // 마커 클릭 리스너 설정
+            setOnMarkerClickListener { clickedMarker ->
+                // 클릭된 마커의 tag에서 ParkingItem 가져오기
+                val item = clickedMarker.tag as? ParkingItem
+                item?.let {
+                    // 마커 클릭 시 해당 item 정보를 UI에 표시
+                    binding.materialCardView.visibility = View.VISIBLE
+                    binding.parkCardInfo1.text = it.rdnmadr.ifEmpty { it.lnmadr }
+                    binding.parkCardInfo2.text = it.parkingchrgeInfo
+                    binding.parkCardInfo3.text = it.operDay
+                }
+                false // InfoWindow 기본 동작을 유지하려면 false 반환
+            }
+
+
+            // 마커 클릭 리스너 설정
+
+
+            setOnInfoWindowClickListener { clickedMarker ->
                 Toast.makeText(context, "InfoWindow 클릭됨", Toast.LENGTH_SHORT).show()
             }
         }
@@ -94,6 +152,7 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMapBinding.bind(view)
+        data = (arguments?.getSerializable("list") as? ArrayList<ParkingItem>)!!
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(callback)

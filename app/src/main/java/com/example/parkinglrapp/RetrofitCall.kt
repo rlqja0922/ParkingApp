@@ -50,8 +50,8 @@ class RetrofitCall : ViewModel() {
             override fun onResponse(call: Call<ParkingDataResponse>, response: Response<ParkingDataResponse>) {
                 if (response.isSuccessful) {
                     val parkingDataList = response.body()?.response?.body?.items ?: emptyList()
-                    // rdnmadr가 없는 항목들을 필터링하여 제거
-                    val filteredItems = parkingDataList?.filter { it.rdnmadr.isNotEmpty() }?: emptyList()
+                    // institutionNm (제공기관) 없는 항목들을 필터링하여 제거
+                    val filteredItems = parkingDataList?.filter { it.institutionNm.isNotEmpty() }?: emptyList()
                     _parkingData.postValue(filteredItems)  // 성공 시 LiveData에 값 저장
                     for (data in filteredItems) {
                         Log.d("ParkingData", "주차장 이름: ${data.prkplceNm}, 도로명 주소: ${data.rdnmadr}")

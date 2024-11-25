@@ -36,5 +36,7 @@ data class ParkingItem(
     val enforceSe: String,
     val operDay: String,
     val latitude: String,
-    val longitude:String
+    val longitude:String,
+    val institutionNm:String,
+    val parkingchrgeInfo:String
 ): Serializable

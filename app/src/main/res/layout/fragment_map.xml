@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@color/blue_back"
-                        android:text=" 정보1 "
+                        android:text=" 주소 "
                         android:textColor="@color/white"
                         android:textSize="16dp"></TextView>
                 </androidx.cardview.widget.CardView>
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@color/black_back"
-                        android:text=" 정보2 "
+                        android:text=" 요금 "
                         android:textColor="@color/white"
                         android:textSize="16dp"></TextView>
                 </androidx.cardview.widget.CardView>
@@ -201,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@color/brown_back"
-                        android:text=" 제공기관 "
+                        android:text=" 요일 "
                         android:textColor="@color/white"
                         android:textSize="16dp"></TextView>
                 </androidx.cardview.widget.CardView>

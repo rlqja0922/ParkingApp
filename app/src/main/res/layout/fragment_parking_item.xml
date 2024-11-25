@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="264dp"
+    android:layout_width="match_parent"
     android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center_vertical">
+    android:gravity="left">
 
     <TextView
         android:id="@+id/park_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="안양시청 주차장"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:textColor="@color/blue1"
         android:textStyle="bold"
         android:textAppearance="?attr/textAppearanceListItem" />
@@ -29,13 +29,14 @@
             android:id="@+id/park_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textColor="@color/black"
             android:layout_marginLeft="4dp"
             android:text="안양시 만안구 만안로 111"
             android:textAppearance="?attr/textAppearanceListItem" />
     </LinearLayout>
     <LinearLayout
+        android:layout_marginVertical="3dp"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:background="@color/blue_back"
                 android:textColor="@color/white"
                 android:text=" 정보1 "></TextView>
@@ -58,9 +59,16 @@
             android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textColor="@color/black"
             android:text="@string/parking_data">
         </TextView>
     </LinearLayout>
+    <View
+        android:layout_marginTop="12dp"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+        android:background="@color/gray_back"></View>
 </LinearLayout>
