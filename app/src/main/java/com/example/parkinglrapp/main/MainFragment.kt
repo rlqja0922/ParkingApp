@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkinglrapp.Data.ParkingItem
 import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter
+import com.example.parkinglrapp.Map.MapFragment
+import com.example.parkinglrapp.R
 import com.example.parkinglrapp.databinding.FragmentMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -59,7 +61,10 @@ class MainFragment : Fragment() {
             else -> GridLayoutManager(context, columnCount)
         }
 
-        recyclerViewAdapter = MyItemRecyclerViewAdapter(dataList)
+        recyclerViewAdapter = MyItemRecyclerViewAdapter(dataList) { selectedItem ->
+            // 클릭 이벤트 처리
+            replaceFragmentWithDetails(selectedItem)
+        }
         recyclerView.adapter = recyclerViewAdapter
 
 
@@ -72,6 +77,20 @@ class MainFragment : Fragment() {
         dataList.clear() // 기존 데이터 삭제
         dataList.addAll(newList) // 새 데이터 추가
         recyclerViewAdapter.notifyDataSetChanged()
+    }
+    private fun replaceFragmentWithDetails(selectedItem: ParkingItem) {
+        val detailsFragment = MapFragment.newInstance(selectedItem)
+
+        val bundle = Bundle()
+        bundle.putSerializable("list",ArrayList(dataList))
+        bundle.putSerializable("item",(selectedItem))
+
+        detailsFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_view, detailsFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     companion object {

@@ -13,7 +13,8 @@ import com.example.parkinglrapp.databinding.FragmentParkingItemBinding
  * TODO: Replace the implementation with code for your data type.
  */
 class MyItemRecyclerViewAdapter(
-    private var values: MutableList<ParkingItem>
+    private var values: MutableList<ParkingItem>,
+    private val itemClickListener: (ParkingItem) -> Unit // 클릭 이벤트 콜백
 ) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,6 +41,9 @@ class MyItemRecyclerViewAdapter(
             binding.parkName.text = item.prkplceNm
             binding.parkContent.text = item.rdnmadr ?: item.lnmadr
             binding.parkDetail.text = item.operDay
+            binding.root.setOnClickListener {
+                itemClickListener(item)
+            }
         }
         override fun toString(): String {
             return super.toString() + " "

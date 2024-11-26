@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Map.MapFragment">
 
     <fragment
@@ -11,12 +12,12 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="-50dp"
+        android:layout_marginBottom="-10dp"
         app:layout_constraintBottom_toTopOf="@+id/materialCardView"
         app:layout_constraintTop_toTopOf="parent"></fragment>
 
     <com.google.android.material.card.MaterialCardView
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@color/white"
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
@@ -131,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@color/blue_back"
-                        android:text=" 주소 "
+                        android:text=" 구분 "
                         android:textColor="@color/white"
                         android:textSize="16dp"></TextView>
                 </androidx.cardview.widget.CardView>

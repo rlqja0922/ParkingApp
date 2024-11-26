@@ -11,8 +11,8 @@
     </style>
     <style name="TopRoundedCard" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">48dp</item>
-        <item name="cornerSizeTopRight">48dp</item>
+        <item name="cornerSizeTopLeft">25dp</item>
+        <item name="cornerSizeTopRight">25dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cardBackgroundColor">@android:color/white</item>
