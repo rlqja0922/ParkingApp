@@ -74,7 +74,7 @@ class MapFragment : Fragment() {
         googleMap!!.setOnInfoWindowClickListener { clickedMarker ->
             if (clickedMarker == marker) {
                 // InfoWindow 클릭 시 처리
-                Toast.makeText(context, "InfoWindow 클릭됨", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "InfoWindow 클릭됨", Toast.LENGTH_SHORT).show()
             }
         }
 

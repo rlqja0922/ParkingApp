@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.parkinglrapp.R
+import com.example.parkinglrapp.databinding.FragmentAccountBinding
+import com.example.parkinglrapp.databinding.FragmentMypageBinding
+import com.example.parkinglrapp.main.MainActivity
+import com.example.parkinglrapp.utills.SharedStore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,7 @@ class MypageFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding : FragmentMypageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +40,25 @@ class MypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mypage, container, false)
+        binding = FragmentMypageBinding.inflate(inflater, container,false)
+        binding.profileName.text = SharedStore().getSharePrefrerenceStringData(context,SharedStore().NICKNAME)
+        binding.myPlace.text = findMostFrequentValue(SharedStore().getSharePrefrerenceListData(context!!,SharedStore().PLACE))
+
+        binding.logoutView.setOnClickListener {
+
+            val parentActivity = activity as? MainActivity
+            parentActivity!!.googleLogout()
+        }
+        return binding.root
+    }
+    fun findMostFrequentValue(strings: List<String>): String? {
+        if (strings.isEmpty()) return null // 리스트가 비어 있으면 null 반환
+
+        // 빈도 계산
+        val frequencyMap = strings.groupingBy { it }.eachCount()
+
+        // 가장 많은 빈도를 가진 값을 찾기
+        return frequencyMap.maxByOrNull { it.value }?.key
     }
 
     companion object {

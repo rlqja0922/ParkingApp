@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import com.example.parkinglrapp.Data.SearchData
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class SharedStore {
 
@@ -75,6 +76,33 @@ class SharedStore {
         val l_pref = PreferenceManager.getDefaultSharedPreferences(p_context)
         returnStr = l_pref.getInt(p_keyName, 0)
         return returnStr
+    }
+    fun putSharePrefrerenceListData(p_context: Context, p_keyName: String?, p_List: List<String>) {
+        val prefs = p_context.getSharedPreferences(
+            p_keyName,
+            Context.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        val gson = Gson()
+        val json = gson.toJson(p_List)
+        editor.putString(p_keyName, json)
+        editor.apply()
+    }
+
+    fun getSharePrefrerenceListData(p_context: Context, p_keyName: String?): List<String> {
+
+        val prefs = p_context.getSharedPreferences(
+            p_keyName,
+            Context.MODE_PRIVATE
+        )
+        val gson = Gson()
+        val json = prefs.getString(p_keyName, null)
+        return if (json != null) {
+            val type = object : TypeToken<List<String>>() {}.type // 타입 토큰 생성
+            Gson().fromJson(json, type) // JSON 문자열을 리스트로 변환
+        } else {
+            emptyList() // 저장된 값이 없으면 빈 리스트 반환
+        }
     }
     fun saveEventSearchResModel(context: Context, searchData: SearchData?) {
         val prefs = context.getSharedPreferences(

@@ -55,6 +55,14 @@ class MainActivity : AppCompatActivity() {
         if (my_place !== "지역을 찾을 수 없습니다."&& my_place !== ""){
 
             parkingApiGetAdd(lat!!, long!!)
+            if (SharedStore().getSharePrefrerenceBooleanData(context, SharedStore().LOGINYN)){
+                var my_place_list : MutableList<String> =
+                    (SharedStore().getSharePrefrerenceListData(context,SharedStore().PLACE) as? List<String>)
+                        ?.toMutableList() // 불변 리스트를 MutableList로 변환
+                        ?: mutableListOf() // 빈 리스트 처리
+                my_place_list.add(my_place)
+                SharedStore().putSharePrefrerenceListData(context,SharedStore().PLACE,my_place_list)
+            }
         }
         showFragment()
         googleLogin()
@@ -198,6 +206,42 @@ class MainActivity : AppCompatActivity() {
             updateUI(currentUser)
         }
     }
+    fun googleLogout(){
+        // FirebaseAuth 인스턴스 초기화
+        auth = FirebaseAuth.getInstance()
+
+        // Google Sign-In 옵션 구성
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id)) // Firebase에서 제공하는 웹 클라이언트 ID
+            .requestEmail()
+            .build()
+
+        // Google Sign-In 클라이언트 초기화
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+
+        // 기존에 로그인된 사용자가 있는지 확인
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            googleSignInClient.signOut()
+
+            // Fragment 인스턴스 생성
+            val fragment = MainFragment()// 데이터를 Fragment로 전달
+            val bundle = Bundle()
+            bundle.putSerializable("list",ArrayList(parkingData))
+
+            fragment.arguments = bundle
+
+
+            // FragmentTransaction을 사용해 FrameLayout에 Fragment를 추가
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_view, fragment) // FrameLayout의 ID와 Fragment를 연결
+                .addToBackStack("main") // 뒤로 가기 스택에 추가
+                .commit()
+            SharedStore().putSharePrefrerenceBooleanData(context,SharedStore().LOGINYN,false)
+            Toast.makeText(context,"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show()
+        }
+    }
     fun parkingApiGetAdd(lat : Long,long : Long){
         parkingViewModel.parkingData.observe(this, Observer { parkingDataList ->
             // UI 업데이트 예시: 로그 출력
@@ -263,6 +307,7 @@ class MainActivity : AppCompatActivity() {
         if (user != null) {
             Toast.makeText(this, "Logged in as: ${user.displayName}", Toast.LENGTH_SHORT).show()
             SharedStore().putSharePrefrerenceBooleanData(context,SharedStore().LOGINYN,true)
+            SharedStore().putSharePrefrerenceStringData(context,SharedStore().NICKNAME,user.displayName)
             // UI 업데이트 또는 다른 화면으로 전환
         } else {
             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
