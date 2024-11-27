@@ -1,7 +1,8 @@
 package com.example.parkinglrapp.Data
 
+import java.io.Serializable
+
 data class SearchData (
-    val lat : Long,
-    val long : Long,
+    val code : String,
     val add : String
-    )
+    ) : Serializable

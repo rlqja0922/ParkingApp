@@ -5,7 +5,7 @@
     android:layout_height="50dp">
     <FrameLayout
         android:id="@+id/back_title"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,7 +30,7 @@
     </FrameLayout>
     <LinearLayout
         android:id="@+id/def_title"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView

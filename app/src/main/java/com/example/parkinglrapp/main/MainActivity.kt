@@ -154,6 +154,14 @@ class MainActivity : AppCompatActivity() {
                     binding.menuCard.visibility=View.GONE
                     binding.menuCardView.visibility=View.GONE
 
+                }else if (it.simpleName=="SearchResultFragment"){
+                    binding.titleView.root.visibility=View.VISIBLE
+                    binding.titleView.backTitle.visibility = View.VISIBLE
+                    binding.titleView.defTitle.visibility = View.GONE
+                    binding.titleView.backTitleTv.text=getString(R.string.search_results)
+                    binding.menuCard.visibility=View.GONE
+                    binding.menuCardView.visibility=View.GONE
+
                 }
             }
         }

@@ -89,6 +89,7 @@
             android:layout_margin="16dp"></include>
 
         <TextView
+            android:visibility="gone"
             android:gravity="center"
             android:id="@+id/search_list_text"
             android:background="@drawable/list_background"

@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.parkinglrapp.Data.ParkingItem
+import com.example.parkinglrapp.Data.SearchData
 import com.example.parkinglrapp.R
 import com.example.parkinglrapp.List.placeholder.PlaceholderContent
 
@@ -18,6 +20,8 @@ class SearchListFragment : Fragment() {
 
     private var columnCount = 1
 
+    private lateinit var recyclerView: RecyclerView
+    lateinit var list : List<SearchData>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,10 +43,16 @@ class SearchListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyItemRecyclerViewAdapter2(PlaceholderContent.ITEMS)
+                adapter = MyItemRecyclerViewAdapter2(list) { selectedItem ->
+                    // 클릭 이벤트 처리
+                    replaceFragmentWithDetails(selectedItem)
+                }
             }
         }
         return view
+    }
+    fun replaceFragmentWithDetails(seletedItem : SearchData){
+
     }
 
     companion object {

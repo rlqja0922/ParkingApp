@@ -5,7 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.parkinglrapp.Data.ParkingItem
+import com.example.parkinglrapp.Data.SearchData
+import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter
+import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter2
+import com.example.parkinglrapp.Map.MapFragment
 import com.example.parkinglrapp.R
+import com.example.parkinglrapp.RetrofitCall
+import com.example.parkinglrapp.databinding.FragmentSearchBinding
+import com.example.parkinglrapp.main.MainActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,7 +34,13 @@ class SearchFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentSearchBinding
+    private lateinit var recyclerView: RecyclerView
+    private var columnCount = 1
+    lateinit var list : MutableList<SearchData>
+    private val parkingViewModel: RetrofitCall by viewModels()
 
+    private lateinit var recyclerViewAdapter: MyItemRecyclerViewAdapter2
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,9 +54,43 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
-    }
+        binding = FragmentSearchBinding.inflate(layoutInflater)
+        val includedView = binding.searchList  // include 태그의 id
 
+        val activity = requireActivity() as MainActivity
+
+        list = activity.codes.zip(activity.regions){ code, add ->SearchData(code,add) }.toMutableList()
+        // 포함된 레이아웃 내 RecyclerView에 접근
+        recyclerView = includedView.list
+
+        // RecyclerView 설정
+        recyclerView.layoutManager = when {
+            columnCount <= 1 -> LinearLayoutManager(context)
+            else -> GridLayoutManager(context, columnCount)
+        }
+
+        recyclerViewAdapter = MyItemRecyclerViewAdapter2(list) { selectedItem ->
+            // 클릭 이벤트 처리
+            replaceFragmentWithDetails(selectedItem)
+        }
+        recyclerView.adapter = recyclerViewAdapter
+
+
+        return binding.root
+    }
+    fun replaceFragmentWithDetails(seletedItem : SearchData){
+        val detailsFragment = SearchResultFragment.newInstance(seletedItem)
+
+        val bundle = Bundle()
+        bundle.putSerializable("item",(seletedItem))
+
+        detailsFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_view, detailsFragment)
+            .addToBackStack(null)
+            .commit()
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
