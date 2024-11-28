@@ -179,6 +179,9 @@ class MainActivity : AppCompatActivity() {
         }else{
             binding.menuLayout1.mypageText.text = getString(R.string.account)
         }
+        binding.titleView.backTitleIv.setOnClickListener {
+            onBackPressed()
+        }
 
 
     }
