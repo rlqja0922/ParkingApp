@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,7 @@ import com.example.parkinglrapp.RetrofitCall
 import com.example.parkinglrapp.databinding.FragmentMainBinding
 import com.example.parkinglrapp.databinding.FragmentSearchResultBinding
 import com.example.parkinglrapp.main.MainFragment
+import com.example.parkinglrapp.utills.SharedStore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,6 +45,8 @@ class SearchResultFragment : Fragment() {
 
     private lateinit var recyclerViewAdapter: MyItemRecyclerViewAdapter
     private var dataList: MutableList<ParkingItem> = mutableListOf()
+
+    private var searchHistory: MutableList<SearchData> = mutableListOf()
     private lateinit var searchdata : SearchData
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +63,8 @@ class SearchResultFragment : Fragment() {
         // Inflate the layout for this fragment
         binding  = FragmentSearchResultBinding.inflate(layoutInflater)
         searchdata = arguments!!.getSerializable("item") as SearchData
+
+
         binding.searchHint.text = searchdata.add
         val includedView = binding.searchResultList  // include 태그의 id
 
@@ -105,18 +111,23 @@ class SearchResultFragment : Fragment() {
         parkingViewModel.fetchParkingDataName(page = 1,code)
     }
     private fun replaceFragmentWithDetails(selectedItem: ParkingItem) {
-        val detailsFragment = MapFragment.newInstance(selectedItem)
+        if(selectedItem.latitude.isEmpty()){
+            Toast.makeText(context,"공공기관에서 주소를 제공하지 않는 주차장 입니다.",Toast.LENGTH_SHORT).show()
+        }else{
+            val detailsFragment = MapFragment.newInstance(selectedItem)
 
-        val bundle = Bundle()
-        bundle.putSerializable("list",ArrayList(dataList))
-        bundle.putSerializable("item",(selectedItem))
+            val bundle = Bundle()
+            bundle.putSerializable("list",ArrayList(dataList))
+            bundle.putSerializable("item",(selectedItem))
 
-        detailsFragment.arguments = bundle
+            detailsFragment.arguments = bundle
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_view, detailsFragment)
-            .addToBackStack(null)
-            .commit()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_view, detailsFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
     companion object {
         /**

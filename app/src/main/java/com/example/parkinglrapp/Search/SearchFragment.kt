@@ -19,6 +19,7 @@ import com.example.parkinglrapp.R
 import com.example.parkinglrapp.RetrofitCall
 import com.example.parkinglrapp.databinding.FragmentSearchBinding
 import com.example.parkinglrapp.main.MainActivity
+import com.example.parkinglrapp.utills.SharedStore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +40,9 @@ class SearchFragment : Fragment() {
     private var columnCount = 1
     lateinit var list : MutableList<SearchData>
     private val parkingViewModel: RetrofitCall by viewModels()
+
+
+    private var searchHistory: MutableList<SearchData> = mutableListOf()
 
     private lateinit var recyclerViewAdapter: MyItemRecyclerViewAdapter2
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,10 +79,23 @@ class SearchFragment : Fragment() {
         }
         recyclerView.adapter = recyclerViewAdapter
 
+        binding.searchResultHistory.setOnClickListener {
+            val fragment = SearchHistoryFragment()
 
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_view, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
         return binding.root
     }
     fun replaceFragmentWithDetails(seletedItem : SearchData){
+        searchHistory = mutableListOf<SearchData>()
+        searchHistory = context?.let { SharedStore().getSearchHistoryResModel(it) } as MutableList<SearchData>
+        searchHistory.add(seletedItem)
+        SharedStore().saveSearchHistoryResModel(context!!,searchHistory)
+
+
         val detailsFragment = SearchResultFragment.newInstance(seletedItem)
 
         val bundle = Bundle()

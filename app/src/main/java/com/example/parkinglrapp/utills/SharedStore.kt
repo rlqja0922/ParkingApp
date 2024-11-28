@@ -104,7 +104,7 @@ class SharedStore {
             emptyList() // 저장된 값이 없으면 빈 리스트 반환
         }
     }
-    fun saveEventSearchResModel(context: Context, searchData: SearchData?) {
+    fun saveSearchHistoryResModel(context: Context, searchData: MutableList<SearchData>?) {
         val prefs = context.getSharedPreferences(
             "SEARCHDATA",
             Context.MODE_PRIVATE
@@ -116,13 +116,18 @@ class SharedStore {
         editor.apply()
     }
 
-    fun getEventSearchResModel(context: Context): SearchData? {
+    fun getSearchHistoryResModel(context: Context): MutableList<SearchData>? {
         val prefs = context.getSharedPreferences(
             "SEARCHDATA",
             Context.MODE_PRIVATE
         )
         val gson = Gson()
         val json = prefs.getString("SearchData", null)
-        return gson.fromJson(json, SearchData::class.java)
+        return if (json != null) {
+            val type = object : TypeToken<List<SearchData>>() {}.type // 타입 토큰 생성
+            Gson().fromJson(json, type) // JSON 문자열을 리스트로 변환
+        } else {
+            mutableListOf() // 저장된 값이 없으면 빈 리스트 반환
+        }
     }
 }

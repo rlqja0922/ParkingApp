@@ -5,7 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.parkinglrapp.Data.SearchData
+import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter2
 import com.example.parkinglrapp.R
+import com.example.parkinglrapp.Search.SearchHistoryFragment
 import com.example.parkinglrapp.databinding.FragmentAccountBinding
 import com.example.parkinglrapp.databinding.FragmentMypageBinding
 import com.example.parkinglrapp.main.MainActivity
@@ -26,6 +32,10 @@ class MypageFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding : FragmentMypageBinding
+    private lateinit var recyclerView: RecyclerView
+    private var columnCount = 1
+    lateinit var list : MutableList<SearchData>
+    private lateinit var recyclerViewAdapter: MyItemRecyclerViewAdapter2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +58,35 @@ class MypageFragment : Fragment() {
 
             val parentActivity = activity as? MainActivity
             parentActivity!!.googleLogout()
+        }
+        val includedView = binding.list  // include 태그의 id
+
+        val activity = requireActivity() as MainActivity
+
+        // 포함된 레이아웃 내 RecyclerView에 접근
+        recyclerView = includedView.list
+
+        list = mutableListOf<SearchData>()
+        list = SharedStore().getSearchHistoryResModel(context!!) as MutableList<SearchData>
+
+
+        // RecyclerView 설정
+        recyclerView.layoutManager = when {
+            columnCount <= 1 -> LinearLayoutManager(context)
+            else -> GridLayoutManager(context, columnCount)
+        }
+
+        recyclerViewAdapter = MyItemRecyclerViewAdapter2(list) { selectedItem ->
+            // 클릭 이벤트 처리
+        }
+        recyclerView.adapter = recyclerViewAdapter
+        binding.mySearchlistIv.setOnClickListener {
+            val fragment = SearchHistoryFragment()
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_view, fragment)
+                .addToBackStack(null)
+                .commit()
         }
         return binding.root
     }

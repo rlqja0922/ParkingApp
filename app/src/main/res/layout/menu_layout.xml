@@ -63,6 +63,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"></ImageView>
         <TextView
+            android:id="@+id/mypage_text"
             android:paddingLeft="8dp"
             android:gravity="center_vertical"
             android:text="@string/account"

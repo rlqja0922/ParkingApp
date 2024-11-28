@@ -11,6 +11,7 @@ import com.example.parkinglrapp.R
 import com.example.parkinglrapp.RetrofitCall
 import com.example.parkinglrapp.utills.GpsInfo
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.example.parkinglrapp.Account.MypageFragment
 import com.example.parkinglrapp.Data.ParkingItem
@@ -162,8 +163,21 @@ class MainActivity : AppCompatActivity() {
                     binding.menuCard.visibility=View.GONE
                     binding.menuCardView.visibility=View.GONE
 
+                }else if (it.simpleName=="SearchHistoryFragment"){
+                    binding.titleView.root.visibility=View.VISIBLE
+                    binding.titleView.backTitle.visibility = View.VISIBLE
+                    binding.titleView.defTitle.visibility = View.GONE
+                    binding.titleView.backTitleTv.text=getString(R.string.search_list)
+                    binding.menuCard.visibility=View.GONE
+                    binding.menuCardView.visibility=View.GONE
+
                 }
             }
+        }
+        if(SharedStore().getSharePrefrerenceBooleanData(context,SharedStore().LOGINYN)){
+            binding.menuLayout1.mypageText.text = getString(R.string.profile)
+        }else{
+            binding.menuLayout1.mypageText.text = getString(R.string.account)
         }
 
 
@@ -339,8 +353,30 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         } else {
             // 백스택에 mainFragment 하나만 남은 경우 Activity 종료
+            showAlertDialog()
+        }
+    }
+    private fun showAlertDialog() {
+        // AlertDialog 생성
+        val builder = AlertDialog.Builder(context!!)
+        builder.setTitle("알림") // 제목 설정
+        builder.setMessage("정말로 종료하시겠습니까?") // 메시지 설정
+
+        // "확인" 버튼 추가
+        builder.setPositiveButton("확인") { dialog, _ ->
+            // "확인" 버튼 클릭 시 동작
+            dialog.dismiss() // 다이얼로그 닫기
             finish()
         }
+
+        // "취소" 버튼 추가
+        builder.setNegativeButton("취소") { dialog, _ ->
+            // "취소" 버튼 클릭 시 동작
+            dialog.dismiss() // 다이얼로그 닫기
+        }
+
+        // 다이얼로그 표시
+        builder.show()
     }
     fun findClosestRegion(userInput: String, regions: List<String>, context: Context): String {
         val closestRegion = regions.minByOrNull {

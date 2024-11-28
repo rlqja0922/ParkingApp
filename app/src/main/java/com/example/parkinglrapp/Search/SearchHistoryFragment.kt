@@ -5,7 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.parkinglrapp.Data.SearchData
+import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter2
 import com.example.parkinglrapp.R
+import com.example.parkinglrapp.databinding.FragmentSearchHistoryBinding
+import com.example.parkinglrapp.main.MainActivity
+import com.example.parkinglrapp.utills.SharedStore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,7 +30,12 @@ class SearchHistoryFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentSearchHistoryBinding
+    private lateinit var recyclerView: RecyclerView
+    private var columnCount = 1
+    lateinit var list : MutableList<SearchData>
 
+    private lateinit var recyclerViewAdapter: MyItemRecyclerViewAdapter2
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,26 +49,80 @@ class SearchHistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_history, container, false)
+        binding = FragmentSearchHistoryBinding.inflate(inflater, container,false)
+        val includedView = binding.searchHistoryList  // include 태그의 id
+
+        val activity = requireActivity() as MainActivity
+
+        // 포함된 레이아웃 내 RecyclerView에 접근
+        recyclerView = includedView.list
+
+        list = mutableListOf<SearchData>()
+        list = SharedStore().getSearchHistoryResModel(context!!) as MutableList<SearchData>
+
+        binding.searchHistoryDeleteview.setOnClickListener {
+            showAlertDialog()
+        }
+        if (list.isEmpty()){
+            binding.searchHistoryText.visibility = View.VISIBLE
+            binding.searchHistoryList.list.visibility = View.GONE
+        }else{
+            binding.searchHistoryText.visibility = View.GONE
+            binding.searchHistoryList.list.visibility = View.VISIBLE
+        }
+
+        // RecyclerView 설정
+        recyclerView.layoutManager = when {
+            columnCount <= 1 -> LinearLayoutManager(context)
+            else -> GridLayoutManager(context, columnCount)
+        }
+
+        recyclerViewAdapter = MyItemRecyclerViewAdapter2(list) { selectedItem ->
+            // 클릭 이벤트 처리
+            replaceFragmentWithDetails(selectedItem)
+        }
+        recyclerView.adapter = recyclerViewAdapter
+
+
+        return binding.root
+    }
+    private fun showAlertDialog() {
+        // AlertDialog 생성
+        val builder = AlertDialog.Builder(context!!)
+        builder.setTitle("알림") // 제목 설정
+        builder.setMessage("정말로 삭제 하시겠습니까?") // 메시지 설정
+
+        // "확인" 버튼 추가
+        builder.setPositiveButton("확인") { dialog, _ ->
+            // "확인" 버튼 클릭 시 동작
+            dialog.dismiss() // 다이얼로그 닫기
+
+            list.clear()
+            binding.searchHistoryText.visibility = View.VISIBLE
+            binding.searchHistoryList.list.visibility = View.GONE
+        }
+
+        // "취소" 버튼 추가
+        builder.setNegativeButton("취소") { dialog, _ ->
+            // "취소" 버튼 클릭 시 동작
+            dialog.dismiss() // 다이얼로그 닫기
+        }
+
+        // 다이얼로그 표시
+        builder.show()
+    }
+    fun replaceFragmentWithDetails(seletedItem : SearchData){
+        val detailsFragment = SearchResultFragment.newInstance(seletedItem)
+
+        val bundle = Bundle()
+        bundle.putSerializable("item",(seletedItem))
+
+        detailsFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_view, detailsFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchHistoryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchHistoryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

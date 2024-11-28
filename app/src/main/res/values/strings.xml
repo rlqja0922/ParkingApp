@@ -9,7 +9,7 @@
     <string name="main_text3">내 주변 주차장</string>
     <string name="search">Search</string>
     <string name="search2">제공기관 기준으로 검색</string>
-    <string name="search_list">검색 기록</string>
+    <string name="search_list">Search History</string>
     <string name="search_list_title">Search History</string>
     <string name="delete">데이터 삭제</string>
     <string name="data_null">데이터가 없습니다.</string>

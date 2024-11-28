@@ -178,6 +178,7 @@
         </LinearLayout>
 
         <include
+            android:id="@+id/list"
             android:layout_margin="16dp"
             layout="@layout/fragment_search_list_list"
             android:layout_width="0dp"

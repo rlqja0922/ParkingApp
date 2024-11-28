@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -79,18 +80,22 @@ class MainFragment : Fragment() {
         recyclerViewAdapter.notifyDataSetChanged()
     }
     private fun replaceFragmentWithDetails(selectedItem: ParkingItem) {
-        val detailsFragment = MapFragment.newInstance(selectedItem)
+        if(selectedItem.latitude.isEmpty()){
+            Toast.makeText(context,"공공기관에서 주소를 제공하지 않는 주차장 입니다.", Toast.LENGTH_SHORT).show()
+        }else{
+            val detailsFragment = MapFragment.newInstance(selectedItem)
 
-        val bundle = Bundle()
-        bundle.putSerializable("list",ArrayList(dataList))
-        bundle.putSerializable("item",(selectedItem))
+            val bundle = Bundle()
+            bundle.putSerializable("list",ArrayList(dataList))
+            bundle.putSerializable("item",(selectedItem))
 
-        detailsFragment.arguments = bundle
+            detailsFragment.arguments = bundle
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_view, detailsFragment)
-            .addToBackStack(null)
-            .commit()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_view, detailsFragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     companion object {
