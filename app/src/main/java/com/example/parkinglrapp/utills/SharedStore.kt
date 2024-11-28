@@ -11,6 +11,7 @@ class SharedStore {
     val LOGINYN : String = "login_yn"
     val NICKNAME : String = "nickname"
     val PLACE : String = "place"
+    val IMG : String = "img"
     val SPLASHYN : String = "splash_yn"
     val FIRSTYN : String = "first_yn"
     val MENUYN : String = "menu_yn"

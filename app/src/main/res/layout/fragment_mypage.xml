@@ -41,6 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintTop_toTopOf="@+id/guideline8">
         <ImageView
+            android:id="@+id/profile_img"
             android:layout_margin="16dp"
             android:layout_width="64dp"
             android:layout_height="64dp"

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.parkinglrapp.Data.SearchData
 import com.example.parkinglrapp.List.MyItemRecyclerViewAdapter2
 import com.example.parkinglrapp.R
@@ -87,6 +88,14 @@ class MypageFragment : Fragment() {
                 .replace(R.id.main_fragment_view, fragment)
                 .addToBackStack(null)
                 .commit()
+        }
+        if (SharedStore().getSharePrefrerenceStringData(context,SharedStore().IMG)!!.isEmpty()) {
+            binding.profileImg.setImageResource(R.drawable.defualt_img) // 기본 이미지 설정
+        } else {
+            Glide.with(this)
+                .load(SharedStore().getSharePrefrerenceStringData(context,SharedStore().IMG)) // URL로 이미지 로드
+                .circleCrop() // 이미지를 원형으로 자르기
+                .into(binding.profileImg) // ImageView에 표시
         }
         return binding.root
     }

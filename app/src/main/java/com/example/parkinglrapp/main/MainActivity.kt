@@ -330,6 +330,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Logged in as: ${user.displayName}", Toast.LENGTH_SHORT).show()
             SharedStore().putSharePrefrerenceBooleanData(context,SharedStore().LOGINYN,true)
             SharedStore().putSharePrefrerenceStringData(context,SharedStore().NICKNAME,user.displayName)
+            SharedStore().putSharePrefrerenceStringData(context,SharedStore().IMG,user.photoUrl.toString())
             // UI 업데이트 또는 다른 화면으로 전환
         } else {
             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
