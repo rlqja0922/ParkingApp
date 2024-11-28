@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                     binding.titleView.root.visibility=View.VISIBLE
                     binding.titleView.defTitle.visibility = View.VISIBLE
                     binding.titleView.backTitle.visibility = View.GONE
-                    binding.titleView.defTitleText.text=getString(R.string.account)
+                    binding.titleView.defTitleText.text=getString(R.string.profile)
                     binding.titleView.defTitleIv.setImageDrawable(getDrawable(R.drawable.user_alt_light))
                     binding.menuCard.visibility=View.GONE
                     binding.menuCardView.visibility=View.GONE
